@@ -1,22 +1,22 @@
-local checked_character = "x"
+local checked = "󰄬"
+local partial = "-"
+local failed = "x"
+local unchecked = " "
 
-local checked_checkbox = "%[" .. checked_character .. "%]"
-local unchecked_checkbox = "%[ %]"
-
-local line_contains_unchecked = function(line)
-	return line:find(unchecked_checkbox)
+local get_box_of_type = function(type)
+  return "%[" .. type .. "%]"
 end
 
-local line_contains_checked = function(line)
-	return line:find(checked_checkbox)
+local line_contains_checkbox = function(line, type)
+	return line:find(get_box_of_type(type))
 end
+
 
 local line_with_checkbox = function(line)
-	-- return not line_contains_a_checked_checkbox(line) and not line_contains_an_unchecked_checkbox(line)
 	return line:find("^%s*- " .. checked_checkbox)
-		or line:find("^%s*- " .. unchecked_checkbox)
-		or line:find("^%s*%d%. " .. checked_checkbox)
-		or line:find("^%s*%d%. " .. unchecked_checkbox)
+		  or line:find("^%s*- " .. unchecked_checkbox)
+		  or line:find("^%s*- " .. partial_checkbox)
+		  or line:find("^%s*- " .. failed_checkbox)
 end
 
 local checkbox = {
