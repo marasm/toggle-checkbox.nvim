@@ -9,13 +9,14 @@ Inspired by [jkramer/vim-checkbox](https://github.com/jkramer/vim-checkbox).
 This is an example of the TODOs that I was using and testing with whilst writing this plugin:
 
 ```markdown
-- [ ] Check an unchecked checkbox
-- [x] Uncheck a checked checkbox
-- [ ] Make check symbol customisable
+- [󰄬] Check an unchecked checkbox
+- [ ] Uncheck a checked checkbox
+- [󰄬] Make check symbol customisable
+- [x] Make check symbol customisable
 - [x] Make checking toggleable
   - [x] Determine if a line contains a checked checkbox
-- [x] Add README
-- [x] Add example keymaps
+- [-] support partial done 
+- [ ] Add example keymaps
 ```
 
 ## Keymaps
