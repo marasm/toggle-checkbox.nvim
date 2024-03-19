@@ -73,9 +73,9 @@ M.toggle = function()
 end
 
 vim.api.nvim_create_user_command("ToggleCheckbox", M.toggle, {})
-vim.api.nvim_create_user_command("ToggleCheckboxCheck", M.check, {})
-vim.api.nvim_create_user_command("ToggleCheckboxUnCheck", M.uncheck, {})
-vim.api.nvim_create_user_command("ToggleCheckboxPartial", M.mark_partial, {})
-vim.api.nvim_create_user_command("ToggleCheckboxFailed", M.mark_failed, {})
+-- vim.api.nvim_create_user_command("ToggleCheckboxCheck", M.check, {})
+-- vim.api.nvim_create_user_command("ToggleCheckboxUnCheck", M.uncheck, {})
+-- vim.api.nvim_create_user_command("ToggleCheckboxPartial", M.mark_partial, {})
+-- vim.api.nvim_create_user_command("ToggleCheckboxFailed", M.mark_failed, {})
 
 return M
