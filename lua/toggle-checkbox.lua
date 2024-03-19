@@ -7,12 +7,12 @@ local box_of_type = function(type)
   return "%[" .. type .. "%]"
 end
 
-local line_contains_checkbox = function(line, type)
-	return line:find(get_box_of_type(type))
+local line_contains_checkbox_type = function(line, type)
+	return line:find(box_of_type(type))
 end
 
 
-local line_with_checkbox = function(line)
+local line_contains_any_checkbox = function(line)
 	return line:find("^%s*- " .. box_of_type("."))
 end
 
@@ -56,15 +56,15 @@ M.toggle = function()
 	-- Otherwise, if it contains an unchecked checkbox, check it.
 	local new_line = ""
 
-	if not line_with_checkbox(current_line) then
+	if not line_contains_any_checkbox(current_line) then
 		new_line = checkbox.make_checkbox(current_line)
-	elseif line_contains_checkbox(current_line, unchecked) then
+	elseif line_contains_checkbox_type(current_line, unchecked) then
 		new_line = checkbox.mark_partial(current_line)
-	elseif line_contains_checkbox(current_line, partial) then
+	elseif line_contains_checkbox_type(current_line, partial) then
 		new_line = checkbox.check(current_line)
-	elseif line_contains_checkbox(current_line, checked) then
+	elseif line_contains_checkbox_type(current_line, checked) then
 		new_line = checkbox.mark_failed(current_line)
-	elseif line_contains_checkbox(current_line, failed) then
+	elseif line_contains_checkbox_type(current_line, failed) then
 		new_line = checkbox.uncheck(current_line)
 	end
 
