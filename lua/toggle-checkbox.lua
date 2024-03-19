@@ -13,7 +13,7 @@ end
 
 
 local line_contains_any_checkbox = function(line)
-	return line:find("^%s*- " .. box_of_type("."))
+	return line:find(box_of_type("."))
 end
 
 local checkbox = {
@@ -52,8 +52,6 @@ M.toggle = function()
 	local start_line = cursor[1] - 1
 	local current_line = vim.api.nvim_buf_get_lines(bufnr, start_line, start_line + 1, false)[1] or ""
 
-	-- If the line contains a checked checkbox then uncheck it.
-	-- Otherwise, if it contains an unchecked checkbox, check it.
 	local new_line = ""
 
 	if not line_contains_any_checkbox(current_line) then
