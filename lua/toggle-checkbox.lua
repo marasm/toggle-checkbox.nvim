@@ -3,7 +3,7 @@ local partial = "-"
 local failed = "x"
 local unchecked = " "
 
-local get_box_of_type = function(type)
+local box_of_type = function(type)
   return "%[" .. type .. "%]"
 end
 
@@ -13,19 +13,27 @@ end
 
 
 local line_with_checkbox = function(line)
-	return line:find("^%s*- " .. checked_checkbox)
-		  or line:find("^%s*- " .. unchecked_checkbox)
-		  or line:find("^%s*- " .. partial_checkbox)
-		  or line:find("^%s*- " .. failed_checkbox)
+	return line:find("^%s*- " .. line:find(box_of_type(checked)))
+		  or line:find("^%s*- " .. line:find(box_of_type(unchecked)))
+		  or line:find("^%s*- " .. line:find(box_of_type(partial)))
+		  or line:find("^%s*- " .. line:find(box_of_type(failed)))
 end
 
 local checkbox = {
 	check = function(line)
-		return line:gsub(unchecked_checkbox, checked_checkbox, 1)
+		return line:gsub(box_of_type("."), checked_checkbox, 1)
 	end,
 
 	uncheck = function(line)
-		return line:gsub(checked_checkbox, unchecked_checkbox, 1)
+		return line:gsub(box_of_type("."), unchecked_checkbox, 1)
+	end,
+
+	mark_partial = function(line)
+		return line:gsub(box_of_type("."), partial_checkbox, 1)
+	end,
+
+	mark_failed = function(line)
+		return line:gsub(box_of_type("."), failed_checkbox, 1)
 	end,
 
 	make_checkbox = function(line)
@@ -53,9 +61,13 @@ M.toggle = function()
 
 	if not line_with_checkbox(current_line) then
 		new_line = checkbox.make_checkbox(current_line)
-	elseif line_contains_unchecked(current_line) then
+	elseif line_contains_checkbox(current_line, unchecked) then
+		new_line = checkbox.mark_partial(current_line)
+	elseif line_contains_checkbox(current_line, partial) then
 		new_line = checkbox.check(current_line)
-	elseif line_contains_checked(current_line) then
+	elseif line_contains_checkbox(current_line, checked) then
+		new_line = checkbox.mark_failed(current_line)
+	elseif line_contains_checkbox(current_line, failed) then
 		new_line = checkbox.uncheck(current_line)
 	end
 
@@ -64,5 +76,9 @@ M.toggle = function()
 end
 
 vim.api.nvim_create_user_command("ToggleCheckbox", M.toggle, {})
+vim.api.nvim_create_user_command("ToggleCheckboxCheck", M.check, {})
+vim.api.nvim_create_user_command("ToggleCheckboxUnCheck", M.uncheck, {})
+vim.api.nvim_create_user_command("ToggleCheckboxPartial", M.mark_partial, {})
+vim.api.nvim_create_user_command("ToggleCheckboxFailed", M.mark_failed, {})
 
 return M
