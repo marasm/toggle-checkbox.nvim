@@ -18,19 +18,19 @@ end
 
 local checkbox = {
 	check = function(line)
-		return line:gsub(box_of_type("."), checked_checkbox, 1)
+		return line:gsub(box_of_type("."), box_of_type(checked), 1)
 	end,
 
 	uncheck = function(line)
-		return line:gsub(box_of_type("."), unchecked_checkbox, 1)
+		return line:gsub(box_of_type("."), box_of_type(unchecked), 1)
 	end,
 
 	mark_partial = function(line)
-		return line:gsub(box_of_type("."), partial_checkbox, 1)
+		return line:gsub(box_of_type("."), box_of_type(partial), 1)
 	end,
 
 	mark_failed = function(line)
-		return line:gsub(box_of_type("."), failed_checkbox, 1)
+		return line:gsub(box_of_type("."), box_of_type(failed), 1)
 	end,
 
 	make_checkbox = function(line)
