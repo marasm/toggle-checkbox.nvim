@@ -13,10 +13,7 @@ end
 
 
 local line_with_checkbox = function(line)
-	return line:find("^%s*- " .. line:find(box_of_type(checked)))
-		  or line:find("^%s*- " .. line:find(box_of_type(unchecked)))
-		  or line:find("^%s*- " .. line:find(box_of_type(partial)))
-		  or line:find("^%s*- " .. line:find(box_of_type(failed)))
+	return line:find("^%s*- " .. box_of_type("."))
 end
 
 local checkbox = {
