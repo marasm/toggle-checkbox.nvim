@@ -1,10 +1,10 @@
-local checked = "󰄬"
-local partial = "-"
+local checked = "√"
+local partial = "~"
 local failed = "x"
 local unchecked = " "
 
 local box_of_type = function(type)
-  return "%[" .. type .. "%]"
+  return "%[%" .. type .. "%]"
 end
 
 local line_contains_checkbox_type = function(line, type)
@@ -13,24 +13,24 @@ end
 
 
 local line_contains_any_checkbox = function(line)
-	return line:find(box_of_type("."))
+	return line:find("%[.*%]")
 end
 
 local checkbox = {
 	check = function(line)
-		return line:gsub(box_of_type("."), box_of_type(checked), 1)
+		return line:gsub("%[.*%]", box_of_type(checked), 1)
 	end,
 
 	uncheck = function(line)
-		return line:gsub(box_of_type("."), box_of_type(unchecked), 1)
+		return line:gsub("%[.*%]", box_of_type(unchecked), 1)
 	end,
 
 	mark_partial = function(line)
-		return line:gsub(box_of_type("."), box_of_type(partial), 1)
+		return line:gsub("%[.*%]", box_of_type(partial), 1)
 	end,
 
 	mark_failed = function(line)
-		return line:gsub(box_of_type("."), box_of_type(failed), 1)
+		return line:gsub("%[.*%]", box_of_type(failed), 1)
 	end,
 
 	make_checkbox = function(line)
@@ -64,7 +64,9 @@ M.toggle = function()
 		new_line = checkbox.mark_failed(current_line)
 	elseif line_contains_checkbox_type(current_line, failed) then
 		new_line = checkbox.uncheck(current_line)
-	end
+  else 
+    new_line = current_line
+  end
 
 	vim.api.nvim_buf_set_lines(bufnr, start_line, start_line + 1, false, { new_line })
 	vim.api.nvim_win_set_cursor(0, cursor)
