@@ -72,43 +72,88 @@ local checkbox = {
 	end,
 }
 
+function get_buffer_params()
+  local bn = vim.api.nvim_buf_get_number(0)
+  local cur = vim.api.nvim_win_get_cursor(0)
+  local sl = cur[1] - 1
+  local cl = vim.api.nvim_buf_get_lines(bn, sl, sl + 1, false)[1] or ""
+
+  return {
+    buffer_number = bn,
+    cursor = cur,
+    start_line = sl,
+    current_line = cl,
+  }
+end
+
+function set_line_into_buffer(line, buffer_params)
+  vim.api.nvim_buf_set_lines(buffer_params.buffer_number, 
+                             buffer_params.start_line, 
+                             buffer_params.start_line + 1, 
+                             false, 
+                             { line })
+  vim.api.nvim_win_set_cursor(0, buffer_params.cursor)
+end
 
 function M.toggle() 
-	local bufnr = vim.api.nvim_buf_get_number(0)
-	local cursor = vim.api.nvim_win_get_cursor(0)
-	local start_line = cursor[1] - 1
-	local current_line = vim.api.nvim_buf_get_lines(bufnr, start_line, start_line + 1, false)[1] or ""
-
+  local buffer_params = get_buffer_params()
 	local new_line = ""
 
-	if not line_contains_any_checkbox(current_line) then
+	if not line_contains_any_checkbox(buffer_params.current_line) then
     print("created new check box")
-		new_line = checkbox.make_checkbox(current_line)
-	elseif line_contains_checkbox_type(current_line, unchecked) then
+		new_line = checkbox.make_checkbox(buffer_params.current_line)
+	elseif line_contains_checkbox_type(buffer_params.current_line, unchecked) then
     print("toggle unchecked -> partial")
-		new_line = checkbox.mark_partial(current_line)
-	elseif line_contains_checkbox_type(current_line, partial) then
+		new_line = checkbox.mark_partial(buffer_params.current_line)
+	elseif line_contains_checkbox_type(buffer_params.current_line, partial) then
     print("toggle partial -> checked")
-		new_line = checkbox.check(current_line)
-	elseif line_contains_checkbox_type(current_line, checked) then
+		new_line = checkbox.check(buffer_params.current_line)
+	elseif line_contains_checkbox_type(buffer_params.current_line, checked) then
     print("toggle checked -> failed")
-		new_line = checkbox.mark_failed(current_line)
-	elseif line_contains_checkbox_type(current_line, failed) then
+		new_line = checkbox.mark_failed(buffer_params.current_line)
+	elseif line_contains_checkbox_type(buffer_params.current_line, failed) then
     print("toggle failed -> unchecked")
-		new_line = checkbox.uncheck(current_line)
+		new_line = checkbox.uncheck(buffer_params.current_line)
   else
     print("no match for toggle")
-    new_line = current_line
+    new_line = buffer_params.current_line
 	end
 
-	vim.api.nvim_buf_set_lines(bufnr, start_line, start_line + 1, false, { new_line })
-	vim.api.nvim_win_set_cursor(0, cursor)
+  set_line_into_buffer(new_line, buffer_params)
+end
+
+function M.check()
+  local buffer_params = get_buffer_params()
+	local new_line = ""
+  new_line = checkbox.check(buffer_params.current_line)
+  set_line_into_buffer(new_line, buffer_params)
+end
+
+function M.uncheck()
+  local buffer_params = get_buffer_params()
+	local new_line = ""
+  new_line = checkbox.uncheck(buffer_params.current_line)
+  set_line_into_buffer(new_line, buffer_params)
+end
+
+function M.mark_partial()
+  local buffer_params = get_buffer_params()
+	local new_line = ""
+  new_line = checkbox.mark_partial(buffer_params.current_line)
+  set_line_into_buffer(new_line, buffer_params)
+end
+
+function M.mark_failed()
+  local buffer_params = get_buffer_params()
+	local new_line = ""
+  new_line = checkbox.mark_failed(buffer_params.current_line)
+  set_line_into_buffer(new_line, buffer_params)
 end
 
 vim.api.nvim_create_user_command("ToggleCheckbox", M.toggle, {})
--- vim.api.nvim_create_user_command("ToggleCheckboxCheck", M.check, {})
--- vim.api.nvim_create_user_command("ToggleCheckboxUnCheck", M.uncheck, {})
--- vim.api.nvim_create_user_command("ToggleCheckboxPartial", M.mark_partial, {})
--- vim.api.nvim_create_user_command("ToggleCheckboxFailed", M.mark_failed, {})
+vim.api.nvim_create_user_command("ToggleCheckboxCheck", M.check, {})
+vim.api.nvim_create_user_command("ToggleCheckboxUnCheck", M.uncheck, {})
+vim.api.nvim_create_user_command("ToggleCheckboxPartial", M.mark_partial, {})
+vim.api.nvim_create_user_command("ToggleCheckboxFailed", M.mark_failed, {})
 
 return M
