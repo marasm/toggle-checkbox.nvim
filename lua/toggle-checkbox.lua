@@ -124,29 +124,25 @@ end
 
 function M.check()
   local buffer_params = get_buffer_params()
-	local new_line = ""
-  new_line = checkbox.check(buffer_params.current_line)
+	local new_line = checkbox.check(buffer_params.current_line)
   set_line_into_buffer(new_line, buffer_params)
 end
 
 function M.uncheck()
   local buffer_params = get_buffer_params()
-	local new_line = ""
-  new_line = checkbox.uncheck(buffer_params.current_line)
+	local new_line = checkbox.uncheck(buffer_params.current_line)
   set_line_into_buffer(new_line, buffer_params)
 end
 
 function M.mark_partial()
   local buffer_params = get_buffer_params()
-	local new_line = ""
-  new_line = checkbox.mark_partial(buffer_params.current_line)
+	local new_line = checkbox.mark_partial(buffer_params.current_line)
   set_line_into_buffer(new_line, buffer_params)
 end
 
 function M.mark_failed()
   local buffer_params = get_buffer_params()
-	local new_line = ""
-  new_line = checkbox.mark_failed(buffer_params.current_line)
+	local new_line = checkbox.mark_failed(buffer_params.current_line)
   set_line_into_buffer(new_line, buffer_params)
 end
 
