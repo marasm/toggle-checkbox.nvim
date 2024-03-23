@@ -11,19 +11,19 @@ function M.setup(opts)
   opts = opts or {}
 
   if opts.checked_char then
-    checked = checked_char
+    checked = opts.checked_char
   end
 
   if opts.unchecked_char then
-    unchecked = unchecked_char
+    unchecked = opts.unchecked_char
   end
 
   if opts.failed_char then
-    failed = failed_char
+    failed = opts.failed_char
   end
 
   if opts.partial_char then
-    partial = partial_char
+    partial = opts.partial_char
   end
 end
 
