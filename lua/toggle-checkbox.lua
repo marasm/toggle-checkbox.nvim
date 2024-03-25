@@ -3,7 +3,9 @@ local partial = "~"
 local failed = "x"
 local unchecked = " "
 
-local any_box_ptrn = "%[.*%]"
+-- this will match any box [ ] that contains one, two or three char. The additional 
+-- characters are needed to account for unicode/extended chars
+local any_box_ptrn = "%[..?.?%]"
 
 local M = {}
 
