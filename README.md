@@ -34,10 +34,9 @@ The character used to mark each of the four statuses can be customized
 There are no default keymaps but these can be added using `vim.keymap.set()`:
 
 ```lua
-		vim.keymap.set("n", "<leader>tt", ":ToggleCheckbox<CR>", {desc='Toggle checkbox state', silent=true})
-		vim.keymap.set("n", "<leader>tc", ":ToggleCheckboxCheck<CR>", {desc='Mark checkbox as checked', silent=true})
-		vim.keymap.set("n", "<leader>tu", ":ToggleCheckboxUnCheck<CR>", {desc='Mark checkbox as unchecked', silent=true})
-		vim.keymap.set("n", "<leader>tp", ":ToggleCheckboxPartial<CR>", {desc='Mark checkbox as partial', silent=true})
-		vim.keymap.set("n", "<leader>tf", ":ToggleCheckboxFailed<CR>", {desc='Mark checkbox as failed', silent=true})
-
+vim.keymap.set("n", "<leader>tt", ":ToggleCheckbox<CR>", {desc='Toggle checkbox state', silent=true})
+vim.keymap.set("n", "<leader>tc", ":ToggleCheckboxCheck<CR>", {desc='Mark checkbox as checked', silent=true})
+vim.keymap.set("n", "<leader>tu", ":ToggleCheckboxUnCheck<CR>", {desc='Mark checkbox as unchecked', silent=true})
+vim.keymap.set("n", "<leader>tp", ":ToggleCheckboxPartial<CR>", {desc='Mark checkbox as partial', silent=true})
+vim.keymap.set("n", "<leader>tf", ":ToggleCheckboxFailed<CR>", {desc='Mark checkbox as failed', silent=true})
 ```
